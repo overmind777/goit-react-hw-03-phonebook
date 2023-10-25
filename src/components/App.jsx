@@ -17,12 +17,16 @@ export class App extends Component {
 
   componentDidMount() {
     const contacts = this.readContactsFromLocalStorage();
-    this.setState({ contacts });
+    if (contacts?.length) {
+      this.setState({ contacts });
+    }
   }
 
-  componentDidUpdate() {
-    const items = this.state.contacts;
-    this.addContactsToLocalStorage(items);
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      const items = this.state.contacts;
+      this.addContactsToLocalStorage(items);
+    }
   }
 
   addContactsToLocalStorage(item) {
